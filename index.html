@@ -13,9 +13,14 @@
     font-family: 'Georgia', serif;
     background: linear-gradient(to top, #fef3c7, #fde68a, #facc15);
     overflow: hidden;
+    transition: background 1.5s ease;
   }
 
-  /* ---------- INTRO SCREEN ---------- */
+  body.night {
+    background: linear-gradient(to top, #020617, #0f172a, #1e293b);
+  }
+
+  /* ---------- INTRO ---------- */
   .intro {
     position: fixed;
     inset: 0;
@@ -31,9 +36,8 @@
   }
 
   .intro h1 {
-    font-size: 32px;
+    font-size: 34px;
     color: #3a2506;
-    margin-bottom: 15px;
   }
 
   .intro p {
@@ -44,6 +48,21 @@
   .intro.fade {
     opacity: 0;
     pointer-events: none;
+  }
+
+  /* ---------- TOGGLE ---------- */
+  .toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 16px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.25);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 5;
+    backdrop-filter: blur(6px);
   }
 
   /* ---------- SCENE ---------- */
@@ -65,65 +84,84 @@
 
   @keyframes sway {
     0% { transform: rotate(0deg); }
-    25% { transform: rotate(1.5deg); }
+    25% { transform: rotate(1.2deg); }
     50% { transform: rotate(0deg); }
-    75% { transform: rotate(-1.5deg); }
+    75% { transform: rotate(-1.2deg); }
     100% { transform: rotate(0deg); }
   }
 
   /* ---------- FLOWER ---------- */
   .flower {
     position: relative;
-    width: 320px;
-    height: 320px;
+    width: 360px;
+    height: 360px;
   }
 
-  .petal {
+  .petal.outer {
     position: absolute;
-    width: 60px;
-    height: 150px;
+    width: 70px;
+    height: 170px;
     background: linear-gradient(
       to bottom,
       #fde047 0%,
-      #facc15 40%,
-      #f97316 70%,
+      #facc15 45%,
+      #f97316 75%,
       #dc2626 100%
     );
-    border-radius: 60% 60% 50% 50%;
+    border-radius: 80% 80% 60% 60%;
     top: 0;
-    left: 130px;
-    transform-origin: center 150px;
+    left: 145px;
+    transform-origin: center 170px;
+  }
+
+  .petal.inner {
+    position: absolute;
+    width: 55px;
+    height: 130px;
+    background: linear-gradient(
+      to bottom,
+      #fde68a 0%,
+      #fbbf24 60%,
+      #ea580c 100%
+    );
+    border-radius: 80% 80% 60% 60%;
+    top: 40px;
+    left: 152px;
+    transform-origin: center 130px;
+    opacity: 0.9;
   }
 
   .center {
     position: absolute;
-    width: 130px;
-    height: 130px;
-    background: radial-gradient(circle at top left, #3b1f0e, #1a0f08);
+    width: 150px;
+    height: 150px;
+    background:
+      radial-gradient(circle at 30% 30%, #5a2d14, #1a0f08),
+      repeating-radial-gradient(circle, #000 0 2px, transparent 2px 4px);
     border-radius: 50%;
-    top: 95px;
-    left: 95px;
-    box-shadow: inset 0 0 18px rgba(0,0,0,0.6);
+    top: 105px;
+    left: 105px;
+    box-shadow: inset 0 0 22px rgba(0,0,0,0.7);
   }
 
-  /* ---------- STEM + LEAF ---------- */
+  /* ---------- STEM ---------- */
   .stem {
-    width: 14px;
-    height: 260px;
-    background: linear-gradient(#2f855a, #166534);
-    border-radius: 7px;
+    width: 16px;
+    height: 280px;
+    background: linear-gradient(#2f855a, #14532d);
+    border-radius: 8px;
     position: relative;
     margin-top: -10px;
   }
 
   .leaf {
     position: absolute;
-    width: 100px;
-    height: 55px;
+    width: 110px;
+    height: 60px;
     background: linear-gradient(#4ade80, #15803d);
     border-radius: 0 100% 0 100%;
-    top: 90px;
-    left: 14px;
+    top: 100px;
+    left: 16px;
     transform: rotate(-25deg);
     animation: leafMove 4s ease-in-out infinite;
   }
@@ -135,50 +173,63 @@
 
   /* ---------- TEXT ---------- */
   .text {
-    margin-top: 35px;
+    margin-top: 40px;
     text-align: center;
-    font-size: 30px;
+    font-size: 32px;
     color: #3a2506;
-    line-height: 1.4;
+    transition: color 1.2s ease;
+  }
+
+  body.night .text {
+    color: #facc15;
   }
 
   /* ---------- GLOW ---------- */
   .glow {
     position: absolute;
-    width: 380px;
-    height: 380px;
+    width: 420px;
+    height: 420px;
     background: radial-gradient(circle, rgba(255,200,0,0.35), transparent 70%);
     border-radius: 50%;
-    filter: blur(14px);
+    filter: blur(18px);
     z-index: -1;
+    transition: opacity 1.2s ease;
+  }
+
+  body.night .glow {
+    opacity: 0.35;
   }
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC -->
 <audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- INTRO -->
 <div class="intro" onclick="startExperience()">
   <h1>Here’s the sunflower you asked for 🌻</h1>
   <p>Tap to see it</p>
 </div>
 
-<!-- SCENE -->
+<div class="toggle" onclick="toggleMode()">Sunset / Night</div>
+
 <div class="scene" id="scene">
   <div class="glow"></div>
 
   <div class="flower">
     <div class="center"></div>
+
     <script>
-      for (let i = 0; i < 22; i++) {
-        const offset = Math.random() * 4 - 2;
+      for (let i = 0; i < 24; i++) {
         document.write(
-          `<div class="petal" style="transform: rotate(${i * 16 + offset}deg);"></div>`
+          `<div class="petal outer" style="transform: rotate(${i * 15}deg);"></div>`
+        );
+      }
+      for (let i = 0; i < 20; i++) {
+        document.write(
+          `<div class="petal inner" style="transform: rotate(${i * 18}deg);"></div>`
         );
       }
     </script>
@@ -199,6 +250,10 @@
     document.querySelector('.intro').classList.add('fade');
     document.getElementById('scene').classList.add('show');
     document.getElementById('music').play();
+  }
+
+  function toggleMode() {
+    document.body.classList.toggle('night');
   }
 </script>
 
