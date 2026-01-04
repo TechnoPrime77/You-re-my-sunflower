@@ -5,38 +5,77 @@
 <title>For You 🌻</title>
 
 <style>
+  * { box-sizing: border-box; }
+
   body {
     margin: 0;
     height: 100vh;
-    background: linear-gradient(to top, #fef3c7, #fde68a, #facc15);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
     font-family: 'Georgia', serif;
+    background: linear-gradient(to top, #fef3c7, #fde68a, #facc15);
+    overflow: hidden;
   }
 
+  /* ---------- INTRO SCREEN ---------- */
+  .intro {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to top, #fff7cc, #fde68a);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    cursor: pointer;
+    transition: opacity 1.2s ease;
+  }
+
+  .intro h1 {
+    font-size: 32px;
+    color: #3a2506;
+    margin-bottom: 15px;
+  }
+
+  .intro p {
+    font-size: 18px;
+    opacity: 0.7;
+  }
+
+  .intro.fade {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ---------- SCENE ---------- */
   .scene {
-    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     animation: sway 6s ease-in-out infinite;
     transform-origin: bottom center;
-    cursor: pointer;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+
+  .scene.show {
+    opacity: 1;
   }
 
   @keyframes sway {
-    0%   { transform: rotate(0deg); }
-    25%  { transform: rotate(1.5deg); }
-    50%  { transform: rotate(0deg); }
-    75%  { transform: rotate(-1.5deg); }
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(1.5deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-1.5deg); }
     100% { transform: rotate(0deg); }
   }
 
-  /* 🌻 BIGGER FLOWER */
+  /* ---------- FLOWER ---------- */
   .flower {
     position: relative;
     width: 320px;
     height: 320px;
-    margin: auto;
   }
 
   .petal {
@@ -54,7 +93,6 @@
     top: 0;
     left: 130px;
     transform-origin: center 150px;
-    filter: drop-shadow(0 3px 3px rgba(0,0,0,0.25));
   }
 
   .center {
@@ -68,25 +106,16 @@
     box-shadow: inset 0 0 18px rgba(0,0,0,0.6);
   }
 
-  .center::after {
-    content: "";
-    position: absolute;
-    inset: 18px;
-    background: radial-gradient(circle, #5a2d14, transparent 70%);
-    border-radius: 50%;
-  }
-
-  /* 🌱 STEM */
+  /* ---------- STEM + LEAF ---------- */
   .stem {
     width: 14px;
     height: 260px;
     background: linear-gradient(#2f855a, #166534);
-    margin: auto;
     border-radius: 7px;
     position: relative;
+    margin-top: -10px;
   }
 
-  /* 🌿 LEAF CONNECTED TO STEM */
   .leaf {
     position: absolute;
     width: 100px;
@@ -95,7 +124,6 @@
     border-radius: 0 100% 0 100%;
     top: 90px;
     left: 14px;
-    transform-origin: left center;
     transform: rotate(-25deg);
     animation: leafMove 4s ease-in-out infinite;
   }
@@ -105,50 +133,43 @@
     50% { transform: rotate(-15deg); }
   }
 
-  /* ✨ GLOW */
+  /* ---------- TEXT ---------- */
+  .text {
+    margin-top: 35px;
+    text-align: center;
+    font-size: 30px;
+    color: #3a2506;
+    line-height: 1.4;
+  }
+
+  /* ---------- GLOW ---------- */
   .glow {
     position: absolute;
     width: 380px;
     height: 380px;
     background: radial-gradient(circle, rgba(255,200,0,0.35), transparent 70%);
     border-radius: 50%;
-    top: -40px;
-    left: -40px;
     filter: blur(14px);
     z-index: -1;
-    animation: glowPulse 5s ease-in-out infinite;
-  }
-
-  @keyframes glowPulse {
-    0%,100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-
-  /* 📝 BIGGER TEXT */
-  .text {
-    margin-top: 35px;
-    text-align: center;
-    font-size: 28px;
-    color: #3a2506;
-    line-height: 1.4;
-  }
-
-  .hint {
-    font-size: 14px;
-    opacity: 0.6;
-    margin-top: 10px;
   }
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC (upload music.mp3 to GitHub repo) -->
-<audio id="bgMusic" loop>
+<!-- 🎵 MUSIC -->
+<audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<div class="scene" onclick="playMusic()">
+<!-- INTRO -->
+<div class="intro" onclick="startExperience()">
+  <h1>Here’s the sunflower you asked for 🌻</h1>
+  <p>Tap to see it</p>
+</div>
+
+<!-- SCENE -->
+<div class="scene" id="scene">
   <div class="glow"></div>
 
   <div class="flower">
@@ -170,17 +191,14 @@
   <div class="text">
     For you 🌻 <br>
     Even the wind carries my thoughts to you.
-    <div class="hint">(tap anywhere)</div>
   </div>
 </div>
 
 <script>
-  let started = false;
-  function playMusic() {
-    if (!started) {
-      document.getElementById("bgMusic").play();
-      started = true;
-    }
+  function startExperience() {
+    document.querySelector('.intro').classList.add('fade');
+    document.getElementById('scene').classList.add('show');
+    document.getElementById('music').play();
   }
 </script>
 
