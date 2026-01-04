@@ -20,6 +20,7 @@
     position: relative;
     animation: sway 6s ease-in-out infinite;
     transform-origin: bottom center;
+    cursor: pointer;
   }
 
   @keyframes sway {
@@ -30,17 +31,18 @@
     100% { transform: rotate(0deg); }
   }
 
+  /* 🌻 BIGGER FLOWER */
   .flower {
     position: relative;
-    width: 240px;
-    height: 240px;
+    width: 320px;
+    height: 320px;
     margin: auto;
   }
 
   .petal {
     position: absolute;
-    width: 46px;
-    height: 110px;
+    width: 60px;
+    height: 150px;
     background: linear-gradient(
       to bottom,
       #fde047 0%,
@@ -49,74 +51,70 @@
       #dc2626 100%
     );
     border-radius: 60% 60% 50% 50%;
-    top: 5px;
-    left: 97px;
-    transform-origin: center 110px;
-    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+    top: 0;
+    left: 130px;
+    transform-origin: center 150px;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,0.25));
   }
 
   .center {
     position: absolute;
-    width: 95px;
-    height: 95px;
+    width: 130px;
+    height: 130px;
     background: radial-gradient(circle at top left, #3b1f0e, #1a0f08);
     border-radius: 50%;
-    top: 72px;
-    left: 72px;
-    box-shadow:
-      inset 0 0 15px rgba(0,0,0,0.6),
-      0 0 8px rgba(0,0,0,0.4);
+    top: 95px;
+    left: 95px;
+    box-shadow: inset 0 0 18px rgba(0,0,0,0.6);
   }
 
   .center::after {
     content: "";
     position: absolute;
-    inset: 12px;
+    inset: 18px;
     background: radial-gradient(circle, #5a2d14, transparent 70%);
     border-radius: 50%;
   }
 
+  /* 🌱 STEM */
   .stem {
-    width: 12px;
-    height: 230px;
+    width: 14px;
+    height: 260px;
     background: linear-gradient(#2f855a, #166534);
     margin: auto;
-    border-radius: 6px;
+    border-radius: 7px;
+    position: relative;
   }
 
+  /* 🌿 LEAF CONNECTED TO STEM */
   .leaf {
     position: absolute;
-    width: 85px;
-    height: 45px;
+    width: 100px;
+    height: 55px;
     background: linear-gradient(#4ade80, #15803d);
     border-radius: 0 100% 0 100%;
-    top: 305px;
-    left: 135px;
-    transform: rotate(-20deg);
+    top: 90px;
+    left: 14px;
+    transform-origin: left center;
+    transform: rotate(-25deg);
     animation: leafMove 4s ease-in-out infinite;
   }
 
   @keyframes leafMove {
-    0%,100% { transform: rotate(-20deg); }
-    50% { transform: rotate(-10deg); }
+    0%,100% { transform: rotate(-25deg); }
+    50% { transform: rotate(-15deg); }
   }
 
-  .text {
-    margin-top: 25px;
-    text-align: center;
-    font-size: 20px;
-    color: #3a2506;
-  }
-
+  /* ✨ GLOW */
   .glow {
     position: absolute;
-    width: 300px;
-    height: 300px;
+    width: 380px;
+    height: 380px;
     background: radial-gradient(circle, rgba(255,200,0,0.35), transparent 70%);
     border-radius: 50%;
-    top: -30px;
-    left: -30px;
-    filter: blur(12px);
+    top: -40px;
+    left: -40px;
+    filter: blur(14px);
     z-index: -1;
     animation: glowPulse 5s ease-in-out infinite;
   }
@@ -125,32 +123,66 @@
     0%,100% { opacity: 0.6; }
     50% { opacity: 1; }
   }
+
+  /* 📝 BIGGER TEXT */
+  .text {
+    margin-top: 35px;
+    text-align: center;
+    font-size: 28px;
+    color: #3a2506;
+    line-height: 1.4;
+  }
+
+  .hint {
+    font-size: 14px;
+    opacity: 0.6;
+    margin-top: 10px;
+  }
 </style>
 </head>
 
 <body>
-  <div class="scene">
-    <div class="glow"></div>
 
-    <div class="flower">
-      <div class="center"></div>
-      <script>
-        for (let i = 0; i < 20; i++) {
-          const offset = Math.random() * 4 - 2;
-          document.write(
-            `<div class="petal" style="transform: rotate(${i * 18 + offset}deg);"></div>`
-          );
-        }
-      </script>
-    </div>
+<!-- 🎵 MUSIC (upload music.mp3 to GitHub repo) -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
-    <div class="stem"></div>
-    <div class="leaf"></div>
+<div class="scene" onclick="playMusic()">
+  <div class="glow"></div>
 
-    <div class="text">
-      For you 🌻 <br>
-      Even the wind carries my thoughts to you.
-    </div>
+  <div class="flower">
+    <div class="center"></div>
+    <script>
+      for (let i = 0; i < 22; i++) {
+        const offset = Math.random() * 4 - 2;
+        document.write(
+          `<div class="petal" style="transform: rotate(${i * 16 + offset}deg);"></div>`
+        );
+      }
+    </script>
   </div>
+
+  <div class="stem">
+    <div class="leaf"></div>
+  </div>
+
+  <div class="text">
+    For you 🌻 <br>
+    Even the wind carries my thoughts to you.
+    <div class="hint">(tap anywhere)</div>
+  </div>
+</div>
+
+<script>
+  let started = false;
+  function playMusic() {
+    if (!started) {
+      document.getElementById("bgMusic").play();
+      started = true;
+    }
+  }
+</script>
+
 </body>
 </html>
