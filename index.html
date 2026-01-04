@@ -37,9 +37,8 @@
   }
 
   .intro h1 {
-    font-size: 30px;
+    font-size: 32px;
     color: #3a2506;
-    margin-bottom: 10px;
   }
 
   .intro p {
@@ -68,12 +67,24 @@
     100% { transform: rotate(0deg); }
   }
 
-  /* 🌻 SUNFLOWER — UNTOUCHED */
-  .flower {
+  /* STEM (ANCHOR) */
+  .stem {
+    width: 12px;
+    height: 240px;
+    background: linear-gradient(#2f855a, #166534);
+    margin: auto;
+    border-radius: 6px;
     position: relative;
+  }
+
+  /* 🌻 FLOWER — NOW ATTACHED TO STEM */
+  .flower {
+    position: absolute;
+    bottom: 220px; /* sits directly on stem */
+    left: 50%;
+    transform: translateX(-50%);
     width: 220px;
     height: 220px;
-    margin: auto;
   }
 
   .petal {
@@ -98,36 +109,22 @@
     box-shadow: inset 0 0 12px rgba(0,0,0,0.4);
   }
 
-  .stem {
-    width: 12px;
-    height: 220px;
-    background: linear-gradient(#2f855a, #166534);
-    margin: auto;
-    border-radius: 6px;
-  }
-
+  /* LEAF — NOW ATTACHED TO STEM */
   .leaf {
     position: absolute;
     width: 80px;
     height: 40px;
     background: linear-gradient(#4ade80, #15803d);
     border-radius: 0 100% 0 100%;
-    top: 290px;
-    left: 120px;
-    transform: rotate(-20deg);
+    top: 120px;
+    left: 10px;
+    transform: rotate(-25deg);
     animation: leafMove 4s ease-in-out infinite;
   }
 
   @keyframes leafMove {
-    0%,100% { transform: rotate(-20deg); }
-    50% { transform: rotate(-10deg); }
-  }
-
-  .text {
-    margin-top: 25px;
-    text-align: center;
-    font-size: 20px;
-    color: #3a2506;
+    0%,100% { transform: rotate(-25deg); }
+    50% { transform: rotate(-15deg); }
   }
 
   .glow {
@@ -147,6 +144,15 @@
     0%,100% { opacity: 0.6; }
     50% { opacity: 1; }
   }
+
+  /* BIGGER, CLEARER TEXT */
+  .text {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 26px;
+    color: #3a2506;
+    line-height: 1.4;
+  }
 </style>
 </head>
 
@@ -157,15 +163,19 @@
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- INTRO PAGE -->
+<!-- INTRO -->
 <div class="intro" onclick="startExperience()">
-  <h1>Here’s a sunflower i can give u rn🌻</h1>
+  <h1>Here’s a sunflower i can get u rnn 🌻</h1>
   <p>Tap to see it</p>
 </div>
 
-<!-- MAIN SCENE -->
+<!-- SCENE -->
 <div class="scene" id="scene">
   <div class="glow"></div>
+
+  <div class="stem">
+    <div class="leaf"></div>
+  </div>
 
   <div class="flower">
     <div class="center"></div>
@@ -178,13 +188,9 @@
     </script>
   </div>
 
-  <div class="stem"></div>
-  <div class="leaf"></div>
-
   <div class="text">
-    For youuu My Lovee❤️🌻 
-    i hope you like this. Ilysm❤️🌹<br>
-    .
+    For you My Lovee❤️🌻 <br>
+    Hope you love it.Ilysm❤️🌹❤️
   </div>
 </div>
 
